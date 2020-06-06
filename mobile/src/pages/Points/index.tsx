@@ -3,7 +3,7 @@ import {View, StyleSheet, TouchableOpacity, Text, ScrollView, Image, Alert} from
 import {Feather as Icon} from '@expo/vector-icons';
 import Constants from 'expo-constants';
 import api from '../../services/api';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import MapView, {Marker} from 'react-native-maps';
 import {SvgUri} from 'react-native-svg';
 import * as Location from 'expo-location';
@@ -21,14 +21,18 @@ interface Point {
   longitude: number,
 
 }
+interface Params {
+  uf: string,
+  city: string
+}
 
 const Points = () => {
-
+  const route = useRoute()
   const[items, setItems] = useState<Item[]>([]);
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [initialPosition, setInicialPosition] = useState<[number, number]>([0,0]);
   const [points, setPoints] = useState<Point[]>([]);
-
+  const routeParams = route.params as Params;
     useEffect(() => {
       async function loadPosition(){
         const { status } = await Location.requestPermissionsAsync();
@@ -52,12 +56,14 @@ const Points = () => {
     useEffect(() => {
       api.get('points', {
         params:{
-
+          city: routeParams.city,
+          uf: routeParams.uf,
+          items: selectedItems
         }
       }).then(response => {
         setPoints(response.data)
       })
-    }, [])
+    }, [selectedItems])
     const navigation = useNavigation();
     function handleSelectItem(id: number){
       const alreadySelected = selectedItems.findIndex(item => item === id)
