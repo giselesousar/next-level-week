@@ -4,15 +4,14 @@ on:
   push:
     branches:
       - master
-jobs:  
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
 
-    steps: 
-      - name: Checkout
-        uses: actions/checkout@v1
-      - env: 
-          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
- 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: "giselesousar@gmail.com"
