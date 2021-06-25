@@ -16,4 +16,3 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
           heroku_email: "giselesousar@gmail.com"
-          appdir: "backend"
