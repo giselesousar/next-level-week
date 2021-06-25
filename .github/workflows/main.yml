@@ -15,7 +15,4 @@ jobs:
       - env: 
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-      - name: Deploy backend to heroku
-        run: |
-          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/<heroku-project>.git master
  
